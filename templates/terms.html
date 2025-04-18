@@ -1,25 +1,19 @@
-{% extends 'index.html' %}
+{% extends 'base.html' %}
 
+{% block title %}Terms of Service{% endblock %}
 
 {% block body %}
 
-<body>
+<main>
 
-  {% include 'navbar_public.html' %}
+  <h1>Terms of Service</h1>
 
-  <main>
+  <p>Insert your app's Terms of Service here.</p>
 
-    <h1>Terms of Service</h1>
+</main>
 
-    <p>Insert your app's Terms of Service here.</p>
+{% endblock %}
 
-  </main>
-
-  {% include 'footer.html' %}
-
-
-
-  <script src="{{ url_for('static', filename='scripts.js') }}" type="module"></script>
-</body>
-
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/scripts.js') }}" type="module"></script>
 {% endblock %}

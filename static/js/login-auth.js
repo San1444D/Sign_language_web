@@ -213,7 +213,7 @@ function resetPassword() {
 
 
 function loginUser(user, idToken) {
-    fetch('/auth', {
+    fetch('/api/auth/auth_login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

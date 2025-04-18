@@ -31,3 +31,16 @@ def login_required(func):
 
     return wrapper
 
+
+# Decorator for routes that require authentication
+def auth_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        # Check if user is authenticated
+        if 'user' not in session:
+            return redirect(url_for('web.public_pages.login'))
+        
+        else:
+            return f(*args, **kwargs)
+        
+    return decorated_function

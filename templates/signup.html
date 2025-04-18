@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+styles<!DOCTYPE html>
 <html lang="en">
     <head>
     <meta charset="UTF-8">
@@ -6,7 +6,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" >
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" >
 
     <title>Flask Template</title>
 
@@ -39,12 +39,12 @@
                     <div class="alt-signin-divider">OR</div>
 
                     <button id="sign-up-with-google-btn" class="google-login-btn">
-                        <img src="{{ url_for('static', filename='images/google-icon.png') }}" alt="Google Sign Up" class="google-btn-logo">
+                        <img type="image/svg+xml" src="{{ url_for('static', filename='img/icons8-google.svg') }}" alt="Google Sign Up" class="google-btn-logo">
                         Sign up with Google
                     </button>
                     <div id="google-signin-error-message" class="error-msg"></div>
 
-                    <div class="signup-link-container">Already have an account? <a href="{{ url_for('login') }}">Login</a></div>
+                    <div class="signup-link-container">Already have an account? <a href="{{ url_for('web.public_pages.login') }}">Login</a></div>
 
                 </div>
 
@@ -56,8 +56,8 @@
 
         {% include 'footer.html' %}
 
-        <script src="{{ url_for('static', filename='login-auth.js') }}" type="module"></script>
-        <script src="{{ url_for('static', filename='scripts.js') }}" type="module"></script>
+        <script src="{{ url_for('static', filename='js/login-auth.js') }}" type="module"></script>
+        <script src="{{ url_for('static', filename='js/scripts.js') }}" type="module"></script>
 
     </body>
 </html>

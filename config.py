@@ -62,3 +62,16 @@ except FileNotFoundError:
     logger.error("config.json is not found")
 except Exception as e:
     logger.error(f"Error loading config.json: {e}")
+
+
+try:
+    from firebase_admin import credentials, firestore, initialize_app
+
+    # Firebase Admin SDK setup
+    cred = credentials.Certificate("firebase-auth.json")
+    initialize_app(cred)
+    db = firestore.client()
+    logger.info("Firebase Admin SDK initialized successfully.")
+except Exception as e:
+    logger.error(f"Error initializing Firebase Admin SDK: {e}")
+    

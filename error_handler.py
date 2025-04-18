@@ -88,6 +88,11 @@ def register_error_handlers_api(app):
           details, and returns a JSON response with a 500 status code.
     """
 
+    @app.errorhandler(401)
+    def unauthorized(error):
+        logger.error(f"Unauthorized: {error}")
+        return {"error": "Unauthorized"}, 401
+
     @app.errorhandler(404)
     def page_not_found(error):
         logger.error(f"Page not found: {error}")
