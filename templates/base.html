@@ -4,6 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block meta %}
+
+    
+    {% endblock %}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -22,6 +26,7 @@
     {% endblock %}
 
 
+    <script src="{{ url_for('static', filename='js/scripts.js') }}" type="module"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 
     <title>
@@ -46,9 +51,6 @@
 
     {% include 'footer.html' %}
 
-    {% block scripts %}
-
-    {% endblock %}
 </body>
 <script>
     window.addEventListener('scroll', function () {
@@ -60,5 +62,8 @@
         }
     });
 </script>
+{% block scripts %}
+
+{% endblock %}
 
 </html>

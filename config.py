@@ -2,6 +2,13 @@ from logging.handlers import TimedRotatingFileHandler, RotatingFileHandler
 import json, os
 import logging
 
+config_json = None
+DB = None
+APP_SECRET = None
+SESSION_TIME = None
+reCAPTCHA_SECRET = None
+ML = None
+
 try:
     # Create a logger
     logger = logging.getLogger("app_logger")
@@ -38,8 +45,6 @@ try:
 except Exception as e:
     print(f"Logger setup error: {e}")
 
-APP_SECRET = None
-SESSION_TIME = None
 
 try:
     if not os.path.exists("config.json"):
@@ -49,8 +54,6 @@ try:
             config_json = json.load(file)
             logger.info("config.json loaded")
 
-            APP_SECRET = config_json["Flask"]["SECRET_KEY"]
-            SESSION_TIME = config_json["Flask"]["SESSION_TIMEOUT"]
     except PermissionError:
         logger.error("Permission denied while accessing config.json")
     except json.JSONDecodeError:
@@ -67,11 +70,27 @@ except Exception as e:
 try:
     from firebase_admin import credentials, firestore, initialize_app
 
+    APP_SECRET = config_json["Flask"]["SECRET_KEY"]
+    SESSION_TIME = config_json["Flask"]["SESSION_TIMEOUT"]
+    reCAPTCHA_SECRET = config_json["reCAPTCHA"]
+
     # Firebase Admin SDK setup
-    cred = credentials.Certificate("firebase-auth.json")
+    cred = credentials.Certificate(config_json["Firebase"]["SECRET_FILE"])
     initialize_app(cred)
-    db = firestore.client()
+    DB = firestore.client()
     logger.info("Firebase Admin SDK initialized successfully.")
 except Exception as e:
     logger.error(f"Error initializing Firebase Admin SDK: {e}")
+
+
+try:
+    from tensorflow.keras.models import load_model
+    import numpy as np
+
     
+    ML = load_model(f"{config_json["Model"]["MODEL_PATH"]}/{config_json["Model"]["MODEL_NAME"]}")
+    actions = np.array(config_json['Model']["actions"])
+
+    logger.info("AI Model is Loaded successfully")
+except Exception as e:
+    logger.error(f"Error initializing tensorflow Model: {e}")

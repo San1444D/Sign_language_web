@@ -11,30 +11,40 @@
 
 <main>
 
-  <div class="auth-page_container">
+  <div class="container-fluid d-flex justify-content-center align-items-center pt-4" id="main-content">
 
-    <div class="login-form-container">
+    <div class="card p-3 shadow " style="width: 25rem;">
 
-      <div class="login-form">
-        <h2>Login</h2>
+      <div class="card-body d-flex flex-column align-items-center justify-content-center">
+        <h2 class="mb-5">Login</h2>
 
-        <div class="input-group">
-          <input type="email" id="email-input" name="email" placeholder="Email" required autocomplete="email">
+        <div class="mb-3 w-100">
+          <input class="form-control py-2 text-start" type="email" id="email-input" name="email" placeholder="Email"
+            required autocomplete="email">
           <div id="email-error-message" class="error-msg"></div>
         </div>
 
-        <div class="input-group">
-          <input type="password" id="password-input" name="password" placeholder="Password" required autocomplete="current-password">
+        <div class="mb-3 w-100">
+          <!-- <input class="form-control py-2 text-start" type="password" id="password-input" name="password"
+            placeholder="Password" required autocomplete="current-password"> -->
+
+
+          <input type="password" id="password-input" class="form-control py-2 text-start" aria-describedby="passwordHelpBlock"
+            placeholder="Password" required autocomplete="current-password">
+          <div id="passwordHelpBlock" class="form-text" hidden>
+            Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces,
+            special characters, or emoji.
+          </div>
           <div id="password-error-message" class="error-msg"></div>
         </div>
 
-        <div id="sign-in-btn" class="login-btn">Sign In</div>
+        <div id="sign-in-btn" class="login-btn btn btn-primary w-100">Sign In</div>
 
         <div class="alt-signin-divider">OR</div>
 
 
-        <button id="sign-in-with-google-btn" class="google-login-btn">
-          <img type="image/svg+xml" src="{{ url_for('static', filename='img/icons8-google.svg') }}" alt="Google Sign-in"
+        <button id="sign-in-with-google-btn" class="btn btn-outline-light shadow-sm text-dark fw-semibold fs-5 p-2 w-100 d-flex justify-content-center align-items-center">
+          <img type="image/svg+xml" src="{{ url_for('static', filename='img/icons8-google.svg') }}" class="mx-1" style="width: 35px;" alt="Google Sign-in"
             class="google-btn-logo">
           Sign in with Google</button>
 
@@ -57,6 +67,5 @@
 
 {% block scripts %}
 <script src="{{ url_for('static', filename='js/login-auth.js') }}" type="module"></script>
-<script src="{{ url_for('static', filename='js/scripts.js') }}" type="module"></script>
 
 {% endblock %}

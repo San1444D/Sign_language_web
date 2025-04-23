@@ -31,5 +31,6 @@ app.register_blueprint(web_blueprint, url_prefix="/")
 from error_handler import register_error_handlers_web
 register_error_handlers_web(app)
 
+
 if __name__ == '__main__':
     app.run(debug=True)

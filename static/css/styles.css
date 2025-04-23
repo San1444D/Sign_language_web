@@ -9,8 +9,10 @@
     --grey-color: #747E79;
     --dark-color: #000000;
 
+    --border-gradient: linear-gradient(82.77deg, #217bfe 11.87%, #078efb 38.42%, #ac87eb 64.19%, #ee4d5d 89.96%);
+
     --primary-font: 'Poppins', sans-serif;
-    --seconday-font: 'Poppins', sans-serif;
+    --secondary-font: 'Poppins', sans-serif; 
 
     --border-width: 3px;
     --element-border-radius: 5px;
@@ -39,27 +41,21 @@ body {
 }
 
 main {
-    padding: 2rem;
-    height: 100vh;
+    padding: 1rem;
+    min-height: 90vh;
+    /* height: 100vh; */
 }
 
-
-
-
-
 /* === Structure === */
-
-.container {
+/* .container {
     max-width: var(--maximum-width);
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     width: 100%;
-}
-
+} */
 
 /* === Navbar === */
-
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -67,6 +63,7 @@ main {
     background-color: var(--primary-color);
     color: black;
     box-shadow: 0px 8px 16px -4px rgba(128, 128, 128, 0.2);
+    border-radius: 0 0 15px 15px;
 
     position: fixed;
     top: 0;
@@ -74,7 +71,7 @@ main {
     width: 100%;
     z-index: 1000;
     animation: navbar-animation 0.5s ease-in-out;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     /* Animation for the navbar */
 }
 
@@ -94,8 +91,9 @@ main {
 
 /* When scrolled, move navbar up and reduce opacity */
 .navbar.navbar-scrolled {
-    transform: translateY(-15px);
-    opacity: 0.85;
+    transform: translateY(-90%);
+    opacity: 0.75;
+    padding: 2px 0;
     transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
@@ -128,7 +126,6 @@ main {
     background-color: #ddd;
     color: black;
 }
-
 
 /* Style the dropdown button */
 .dropdown {
@@ -165,7 +162,6 @@ main {
     /* Ensure text is aligned to the left */
 }
 
-
 /* Show the dropdown content on hover */
 .dropdown:hover .dropdown-content {
     display: block;
@@ -186,21 +182,16 @@ main {
     display: none;
 }
 
-
-
-
-
 /* === Buttons === */
 
 button {
     font-weight: 600;
-    width: 100%;
+    /* width: 100%; */
 }
 
 button:hover {
     cursor: pointer;
 }
-
 
 /* === Forms === */
 
@@ -208,20 +199,10 @@ input,
 button {
     padding: var(--element-padding);
     border-radius: var(--element-border-radius);
-    width: 100%;
+    /* width: 100%; */
     font-size: 1.1em;
     text-align: center;
 }
-
-
-
-
-
-
-
-
-
-
 
 /* Auth page styles - Login, Signup, Forgot Password */
 
@@ -229,9 +210,6 @@ button {
     display: flex;
     flex-direction: column;
     align-items: center;
-
-
-
 }
 
 .login-form-container {
@@ -379,37 +357,30 @@ footer {
     /* Standard font size */
 }
 
-.simple-footer {
+/* .simple-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 1rem;
-    /* Padding on the sides */
-}
+    /* Padding on the sides *//*
+} 
 
 .simple-footer a {
     color: white;
-    /* Standard link color */
+    /* Standard link color *//*
     text-decoration: none;
-    /* No underlines on links */
+    /* No underlines on links *//*
     margin: 0 5px;
-    /* Margins for spacing */
+    /* Margins for spacing *//*
 }
 
 .simple-footer a:hover {
     text-decoration: underline;
-    /* Underline on hover for better user interaction */
-}
-
-
-
-
+    /* Underline on hover for better user interaction *//*
+} */
 
 /* Responsive */
 @media screen and (max-width: 600px) {
-
-
-
 
     .navbar-right {
         position: fixed;

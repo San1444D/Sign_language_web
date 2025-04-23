@@ -1,14 +1,18 @@
 from flask import Blueprint, jsonify, request, abort
-from config import logger
+from config import logger, ML, actions
+from common import extract_keypoints
 from decorators import login_required
 from error_handler import register_error_handlers_api
+import numpy as np
+
+
 
 model_bp = Blueprint("model", __name__)
 
 register_error_handlers_api(model_bp)
 
 
-@model_bp.route("/predict", methods=["POST"])
+@model_bp.route("/predict/", methods=["POST"])
 def predict():
     """
     Endpoint for making predictions using the model.
@@ -21,13 +25,15 @@ def predict():
     """
     try:
         data = request.get_json()
-        logger.info(f"Received data: {data}")
+        # logger.info(f"Received data: {data}")
+        frames = data['frames']
+
+        res = ML.predict(np.expand_dims(frames, axis=0))[0]
 
         # Here you would typically call your model's prediction function
         # For demonstration, we'll just return the received data
-        prediction = {"result": "dummy_prediction", "input": data}
+        prediction = {"result": actions[np.argmax(res)], "input": data}
         # logger.info(f"Prediction result: {prediction}")
-        raise Exception("Test exception")  # Simulate an error for testing
 
         return jsonify(prediction), 200
 

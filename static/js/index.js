@@ -9,15 +9,10 @@ import { getAuth,
         signInWithPopup,
         GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
 
-
-
   // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
-
-
-
 
 /* === UI === */
 
