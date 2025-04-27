@@ -1,2 +1,0 @@
-2025-04-20 22:47:51,946 - ERROR - Authorization error: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
-2025-04-20 22:47:51,951 - ERROR - UserIP:127.0.0.1 ||| Unauthorized: 401 Unauthorized: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))

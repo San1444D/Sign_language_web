@@ -1,7 +1,7 @@
-from config import logger
+from COMMON.config import logger
 from flask import Blueprint, render_template, stream_template, abort
 from flask import request, redirect, url_for, session
-from decorators import login_required
+from COMMON.decorators import login_required
 
 
 main_bp = Blueprint(

@@ -7,7 +7,7 @@ from flask import (
     redirect,
     url_for,
 )
-from config import logger
+from COMMON.config import logger
 
 
 web_routes = Blueprint(

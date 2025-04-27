@@ -2,13 +2,13 @@ from flask import Flask
 from flask_cors import CORS
 from datetime import timedelta
 from dotenv import load_dotenv
-from config import APP_SECRET, logger
+from COMMON.config import APP_SECRET, logger
 
 load_dotenv()
 
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder=r"./src/static", template_folder=r"./src/templates")
 app.secret_key = APP_SECRET  # Set a secret key for session management
 
 CORS(app)
@@ -28,7 +28,7 @@ from WEB import web as web_blueprint
 app.register_blueprint(api_blueprint, url_prefix="/api")
 app.register_blueprint(web_blueprint, url_prefix="/")
 
-from error_handler import register_error_handlers_web
+from COMMON.error_handler import register_error_handlers_web
 register_error_handlers_web(app)
 
 

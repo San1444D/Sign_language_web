@@ -1,13 +1,8 @@
 from flask import Blueprint
-from error_handler import register_error_handlers_web
+from COMMON.error_handler import register_error_handlers_web
 
 
-web = Blueprint(
-    "web",
-    __name__,
-    static_folder="./../static",
-    template_folder="./../templates",
-)
+web = Blueprint("web", __name__)
 register_error_handlers_web(web)
 
 from .web_routes import web_routes as web_routes_bp
