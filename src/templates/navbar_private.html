@@ -1,0 +1,29 @@
+<script>
+    const userData = {
+    name: "{{ session['user']['name'] }}",
+    email: "{{ session['user']['email'] }}",
+    picture: "{{ session['user']['picture'] }}",
+    uid: "{{ session['user']['uid'] }}"
+  };
+</script>
+
+<div class="navbar border border-top-0 shadow-l border-light bg-light">
+    <img class="logo-img" src="{{ url_for('static', filename='img/default_logo.webp') }}" alt="Logo"/>
+    <span class="hamburger">&#9776;</span> <!-- Hamburger Icon -->
+    <div class="navbar-right" id="navbarRight">
+        <span class="closebtn">&times;</span>
+        <a href="{{ url_for('web.private_pages.dashboard') }}">Dashboard</a>
+        <!-- Dropdown for News -->
+        <a href="#contact">News</a>
+        <a href="/login">Actions</a>
+        <div class="dropdown">
+            <a class="dropbtn" id="dropBtn">Account</a>
+            <div class="dropdown-content">
+                <a href="#news1">Profile</a>
+                <a href="#news2">Settings</a>
+                <a id="sign-out-btn" href="{{ url_for('web.public_pages.logout') }}">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+

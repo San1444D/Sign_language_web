@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+
+{% block meta %}
+<meta name="description" content="Text or Speech to Gesture page for authenticated users.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% endblock %}
+
+{% block title %}Text/Speech to Gesture{% endblock %}
+
+{% block body %}
+<main>
+  <!-- <h1 class="card-title ms-3 mb-4">Text/Speech to Gesture</h1>
+  <h5 class="card-subtitle mb-2 text-body-secondary ms-3">Welcome <span id="username"></span></h5> -->
+  <!-- <div class="card w-100 p-3 shadow-sm">
+    <h1 class="card-title mb-4">Text/Speech to Gesture</h1>
+    <h5 class="card-subtitle mb-2 text-body-secondary"></h5>
+    <div class="card-body">
+      <div class="ps-3">
+        <p class="card-text">Use this template to create and customize more protected pages for your app.</p>
+        <button id="get-start-speech" type="button"
+          class="btn btn-primary d-flex px-4 py-2 align-items-end mx-auto me-4">
+          Get Started
+        </button>
+      </div>
+    </div>
+  </div> -->
+
+  <div class="container-fluid rounded" id="main-content">
+    <!-- <div class="row">
+        <div class="col-sm-12">
+            <h1>Welcome to SLRPS</h1>
+            <p>This is a simple Main page for managing SLRPS.</p>
+        </div>
+    </div> -->
+    <div class="row justify-content-center align-items-center g-2 column-gap-3">
+      <div class="col-md-6 col-sm-12">
+        <h3>Video Output</h3>
+        <div class="bg-light rounded p-3 d-flex flex-column justify-content-center align-items-center shadow-sm">
+          <video class="rounded shadow-sm" id="video-player" controls preload="auto" autoplay
+            style="width:100%; max-width:720px;"></video>
+
+        </div>
+        <p id="recognized-text" class="mt-3"></p>
+      </div>
+
+      <div class="col-md-4 col-sm-12 d-flex flex-column justify-content-start bg-light p-3 gap-2"
+        style="min-height: 40vh; max-height: 60vh;">
+
+        <div class="mb-3">
+          <label for="text-input" class="form-label fs-3 w-75 fw-medium">Text Input</label>
+          <textarea class="form-control" name="text-input" id="text-input" rows="3"
+            placeholder="Enter your text here..."></textarea>
+        </div>
+        <button class="btn btn-primary mx-auto" id="submit-text" type="button">
+          Submit
+        </button>
+
+        Submit
+      </button>
+      
+      <div class="mt-3">
+        <button class="btn btn-secondary mx-auto" id="start-recording" type="button">
+          Start Recording
+        </button>
+        <button class="btn btn-danger mx-auto" id="stop-recording" type="button" disabled>
+          Stop Recording
+        </button>
+      </div>
+
+      </div>
+
+
+    </div>
+
+    <p id="recognized-text" class="mt-3">
+
+    </p>
+    <!-- <img src="/static/img/pngwing.com (1).png" alt="presentation"
+                class="img-fluid rounded w-25 position-absolute bottom-0 end-0 z-n1 bg-opacity-10"> -->
+
+  </div>
+</main>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+  const videoPlayer = $('#video-player');
+  $("#submit-text").click(function () {
+    const textInput = $("#text-input").val();
+    if (textInput) {
+      $.ajax({
+        url: "{{ url_for('api.model.text_to_action') }}", // Ensure this matches your Flask route
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ text: textInput }), // Corrected variable name
+        xhrFields: {
+          responseType: 'blob' // Expect a binary response (video stream)
+        },
+        success: function (data) {
+          console.log("Video data received:", data); // Log the received video data
+
+          // Create a URL for the video blob
+          const videoUrl = URL.createObjectURL(data);
+
+          // Set the video source and play it
+          videoPlayer.attr('src', videoUrl);
+          videoPlayer[0].load();
+          videoPlayer[0].play();
+
+          // Clean up the blob URL after the video ends
+          videoPlayer.on('ended', function () {
+            URL.revokeObjectURL(videoUrl);
+          });
+        },
+        error: function (xhr) {
+          alert('Error: ' + (xhr.responseJSON?.error || 'Unable to play video.'));
+        }
+      });
+    } else {
+      alert("Please enter some text.");
+    }
+  });
+</script>
+<script>
+  let mediaRecorder;
+  let audioChunks = [];
+
+  const startRecordingButton = document.getElementById("start-recording");
+  const stopRecordingButton = document.getElementById("stop-recording");
+
+  // Start recording
+  startRecordingButton.addEventListener("click", async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorder = new MediaRecorder(stream);
+
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          audioChunks.push(event.data);
+        }
+      };
+
+      mediaRecorder.onstop = async () => {
+        const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
+        audioChunks = []; // Clear the chunks for the next recording
+
+        // Convert the audio blob to base64
+        const reader = new FileReader();
+        reader.readAsDataURL(audioBlob);
+        reader.onloadend = () => {
+          const base64Audio = reader.result.split(",")[1]; // Get the base64 string
+          sendAudioToServer(base64Audio);
+        };
+      };
+
+      mediaRecorder.start();
+      startRecordingButton.disabled = true;
+      stopRecordingButton.disabled = false;
+    } catch (error) {
+      console.error("Error accessing microphone:", error);
+      alert("Could not access your microphone. Please check your permissions.");
+    }
+  });
+
+  // Stop recording
+  stopRecordingButton.addEventListener("click", () => {
+    if (mediaRecorder && mediaRecorder.state !== "inactive") {
+      mediaRecorder.stop();
+      startRecordingButton.disabled = false;
+      stopRecordingButton.disabled = true;
+    }
+  });
+
+  // Send audio to the server
+  function sendAudioToServer(base64Audio) {
+    // console.log("Sending audio to server:", base64Audio); // Log the base64 audio data
+    $.ajax({
+      url: "{{ url_for('api.model.speech_to_action') }}", // Ensure this matches your Flask route
+      method: "POST",
+      contentType: "application/json",
+      data: JSON.stringify({ audio: base64Audio }),
+      xhrFields: {
+          responseType: 'blob' // Expect a binary response (video stream)
+        },
+        success: function (data) {
+          console.log("Video data received:", data); // Log the received video data
+          // console.log("text: ", data.header.text)
+
+          // Create a URL for the video blob
+          const videoUrl = URL.createObjectURL(data);
+
+          // Set the video source and play it
+          videoPlayer.attr('src', videoUrl);
+          videoPlayer[0].load();
+          videoPlayer[0].play();
+
+          // Clean up the blob URL after the video ends
+          videoPlayer.on('ended', function () {
+            URL.revokeObjectURL(videoUrl);
+          });
+        },
+        error: function (xhr) {
+          alert('Error: ' + (xhr.responseJSON?.error || 'Unable to play video.'));
+        }
+    });
+  }
+</script>
+{% endblock %}

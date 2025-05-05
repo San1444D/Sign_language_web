@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+
+{% block meta %}
+<meta name="description" content="Dashboard page for authenticated users.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% endblock %}
+
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+
+<main class="gap-2 d-flex flex-column align-items-start justify-content-center">
+  <h1 class="card-title ms-3 mb-2">Dashboard (Protected Page)</h1>
+  <h5 class="card-subtitle text-body-secondary mb-2 ms-4">Welcome <span id="username"></span>,<br>Welcome to SLRPS, This is a simple Main page for managing SLRPS.</h5>
+  
+  <div class="card w-100 p-3 shadow-sm">
+    <h1 class="card-title mb-4">Gesture to Text/Speech</h1>
+    <h5 class="card-subtitle mb-2 text-body-secondary">Try Now</h5>
+    <div class="card-body">
+      <div class="ps-3">
+        <p class="card-text">Use this template to create and customize more protected pages for your app.</p>
+        <button id="get-start-mediapipe" type="button"
+          class="btn btn-primary d-flex px-4 py-2 align-items-end mx-auto me-4">
+          Get Started
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card w-100 p-3 shadow-sm">
+    <h1 class="card-title mb-4">Text/Speech to Gesture</h1>
+    <h5 class="card-subtitle mb-2 text-body-secondary">Try Now</h5>
+    <div class="card-body">
+      <div class="ps-3">
+        <p class="card-text">Use this template to create and customize more protected pages for your app.</p>
+        <button id="get-start-speech" type="button"
+          class="btn btn-primary d-flex px-4 py-2 align-items-end mx-auto me-4">
+          Get Started
+        </button>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}
+
+{% block scripts %}
+
+<!-- <script src="{{ url_for('static', filename='js/login-auth.js') }}" type="module"></script> -->
+<!-- <script src="{{ url_for('static', filename='js/scripts.js') }}" type="module"></script> -->
+<!-- <script src="{{ url_for('static', filename='js/user.js') }}" type="module"></script> -->
+
+
+<script>
+  $('#username').text(userData.name);
+  $('#get-start-mediapipe').click(function () {
+    window.location.href = "{{ url_for('web.private_pages.to_text') }}";
+  });
+  $('#get-start-speech').click(function () {
+    window.location.href = "{{ url_for('web.private_pages.to_gesture') }}"; 
+  });
+  </script>
+
+
+{% endblock %}

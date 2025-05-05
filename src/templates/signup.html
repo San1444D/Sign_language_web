@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<meta name="description" content="Sign up page for new users.">
+{% endblock %}
+
+{% block head %}
+<!-- Google reCAPTCHA v3 -->
+<script src="https://www.google.com/recaptcha/api.js?render=6Le02RwrAAAAACGs5Q656Fd4aqz6R1lamKIcgx3A"></script>
+{% endblock %}
+
+{% block title %}Sign Up{% endblock %}
+{% block body %}
+<main>
+
+    <div class="container-fluid d-flex justify-content-center align-items-center pt-4">
+
+        <div class="card p-3 shadow " style="width: 25rem;">
+
+            <div class="card-body d-flex flex-column align-items-center justify-content-center">
+
+                <h2 class="mb-5">Sign Up</h2>
+
+                <div class="mb-3 w-100">
+                    <input class="form-control py-2 text-start" type="email" id="email-input" name="email"
+                        placeholder="Email" required>
+                    <div id="email-error-message" class="error-msg"></div>
+                </div>
+
+                <div class="mb-3 w-100">
+                    <input type="password" id="password-input" class="form-control py-2 text-start"
+                        aria-describedby="passwordHelpBlock" placeholder="Password" required>
+                    <div id="passwordHelpBlock" class="form-text" hidden>
+                        Your password must be 8-20 characters long, contain letters and numbers, and must not contain
+                        spaces,
+                        special characters, or emoji.
+                    </div>
+                    <input type="password" id="conform-password-input" class="form-control py-2 mt-3 text-start"
+                        aria-describedby="passwordHelpBlock" placeholder="Conform Password" required>
+                    <div id="passwordHelpBlock" class="form-text" hidden>
+                        Password and Conform Password should be same.
+                    </div>
+                    <div id="password-error-message" class="error-msg"></div>
+                </div>
+
+                <div id="create-account-btn" class="login-btn btn btn-primary">Create Account</div>
+
+                <div class="alt-signin-divider">OR</div>
+
+                <button id="sign-up-with-google-btn"
+                    class="btn btn-outline-light shadow-sm text-dark fw-semibold fs-5 p-2 w-100 d-flex justify-content-center align-items-center">
+                    <img type="image/svg+xml" src="{{ url_for('static', filename='img/icons8-google.svg') }}"
+                        class="mx-1" style="width: 35px;" alt="Google Sign-in" class="google-btn-logo">
+                    Sign Up with Google</button>
+                <div id="google-signin-error-message" class="error-msg"></div>
+
+                <div class="signup-link-container">Already have an account? <a
+                        href="{{ url_for('web.public_pages.login') }}">Login</a></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+{% endblock %}
+{% block scripts %}
+
+<script src="{{ url_for('static', filename='js/login-auth.js') }}" type="module"></script>
+
+{% endblock %}

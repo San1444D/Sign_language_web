@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block meta %}
+<meta name="description" content="Gesture to Text or Speech page for authenticated users.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% endblock %}
+
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/holistic/holistic.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+{% endblock %}
+
+{% block title %}Gesture to Text/Speech{% endblock %}
+
+{% block body %}
+<main>
+    <div class="container-fluid rounded" id="main-content">
+        <!-- <div class="row">
+            <div class="col-sm-12">
+                <h1>Welcome to SLRPS</h1>
+                <p>This is a simple Main page for managing SLRPS.</p>
+            </div>
+        </div> -->
+        <div class="row justify-content-center g-2 column-gap-3">
+            <div class="col-md-6 col-sm-12">
+                <h3>Recognition</h3>
+                <div
+                    class="bg-light rounded p-3 d-flex flex-column justify-content-center align-items-center shadow-sm">
+                    <video id="video" class="img-fluid rounded z-1 w-75" autoplay
+                        style="transform: scaleX(-1);display: inline"></video>
+                        
+                        <canvas id="output" class="rounded z-1 w-75" style="width: 100%; height: 100%;"></canvas>
+
+                    <div class="row d-flex justify-content-between align-items-center g-2 w-75 mt-2">
+                        <div class="col d-flex justify-content-start mx-2">
+                            <button id="start-recording" class="btn btn-success col-12 col-md-9">Start Recording</button>
+                        </div>
+
+                        <div class="col d-flex justify-content-end mx-2">
+                            <button id="stop-recording" class="btn btn-danger col-12 col-md-9" disabled>Stop Recording</button>
+                        </div>
+                    </div>
+                </div>
+                <p id="recognized-text" class="mt-3"></p>
+
+
+            </div>
+
+
+            <div class="col-sm-5 d-flex flex-column gap-2">
+                <p class="fs-3 mb-1 fw-medium">Results</p>
+
+                <div class="container-fluid d-flex justify-content-between align-items-center gap-2">
+                    <div class="form-check form-switch form-check-reverse col-4">
+                        <input class="form-check-input" type="checkbox" id="speech-switch">
+                        <label class="form-check-label mx-2" for="speech-switch">Audio Output</label>
+                    </div>
+
+                    <select class="form-select w-50 text-capitalize" aria-label="Default select example"
+                        id="language-select" disabled>
+                        <option selected>Open this select menu</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                </div>
+
+                <div class="h-75 overflow-y-auto d-flex flex-column justify-content-start border rounded shadow-sm bg-light p-3 gap-2 "
+                    style="max-height: 60vh;">
+
+                    <div id="results"
+                        class="container-fluid overflow-auto d-flex flex-column justify-content-start gap-2">
+                    </div>
+
+                </div>
+                <button id="clear-results" class="btn btn-danger col-4 mt-2 mx-auto">Clear Results</button>
+
+
+            </div>
+
+            <p id="recognized-text" class="mt-3">
+
+            </p>
+            <!-- <img src="/static/img/pngwing.com (1).png" alt="presentation"
+                    class="img-fluid rounded w-25 position-absolute bottom-0 end-0 z-n1 bg-opacity-10"> -->
+        </div>
+    </div>
+
+</main>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/mediapipe-3.js') }}" type="module"></script>
+<script>
+    $(document).ready(function () {
+        mediapipeInit();
+        $.ajax({
+            type: "GET",
+            url: "{{ url_for('api.get_api.get_translate_langs') }}",
+            contentType: "application/json",
+            success: function (response) {
+                // console.log(response); // Log the response for debugging
+
+                $("#language-select").empty(); // Clear existing options
+
+                for (const [lang, lang_id] of Object.entries(response)) {
+                    $("#language-select").append(`<option value="${lang_id}">${lang}</option>`);
+                }
+                $("#language-select").val('en'); // Enable the language select after loading options
+            }
+        });
+    });
+    $('#speech-switch').change(function () {
+        if ($(this).is(':checked')) {
+            $('#language-select').removeAttr('disabled');
+        } else {
+            $('#language-select').attr('disabled', 'disabled');
+        }
+    });
+
+    $('#clear-results').click(function () {
+        $('#results').empty(); // Clear the results container
+    });
+
+
+</script>
+{% endblock %}
