@@ -77,6 +77,9 @@ def speech_to_action():
         if res is None:
             return jsonify({"error": "Failed to play video"}), 400
         
+        # res['text'] = text
+        # res['language'] = language
+        
         return res, 200
     
     except Exception as e:

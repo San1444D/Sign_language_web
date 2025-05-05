@@ -74,6 +74,7 @@ async function processFrame() {
     if ($('#speech-switch').is(':checked')) {
       sp = true;
     }
+    console.log(frameDataArray);
     $.ajax({
       url: '/api/model/predict/',
       type: 'POST',
@@ -129,7 +130,7 @@ function mediapipeInit() {
 
 function display_result(response) {
   if (result_temp == response.result) {
-    return;
+    // return;
   }
   result_temp = response.result;
   const temp = `<div class="card bg-">

@@ -186,6 +186,7 @@
         },
         success: function (data) {
           console.log("Video data received:", data); // Log the received video data
+          // console.log("text: ", data.header.text)
 
           // Create a URL for the video blob
           const videoUrl = URL.createObjectURL(data);

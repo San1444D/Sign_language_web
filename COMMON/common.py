@@ -163,7 +163,7 @@ def play_video(text: str):
             mimetype='video/x-matroska',
             headers={
                 'Content-Disposition': 'inline',
-                'Cache-Control': 'no-cache'
+                'Cache-Control': 'no-cache',
             }
         )
 
