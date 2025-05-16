@@ -24,6 +24,10 @@ const errorMsgEmail = document.getElementById("email-error-message")
 const errorMsgPassword = document.getElementById("password-error-message")
 const errorMsgGoogleSignIn = document.getElementById("google-signin-error-message")
 
+function handleLogging(error, message) {
+    console.error(message, error);
+    errorMsgGoogleSignIn.textContent = message;
+}
 // reCAPTCHA functions
 function onClick_reCaptcha(user, idToken, e) {
     // e.preventDefault();
@@ -224,16 +228,16 @@ function loginUser(user, idToken, reCapToken) {
     }).then(response => {
         if (response.ok) {
             window.location.href = "/dashboard";
-    } else {
-        console.error('Failed to login');
-        // Handle errors here
-        response.json().then(data => {
-            console.error('Error details: ', data);
-        });
-    }
-    }).catch (error => {
-    console.error('Error with Fetch operation: ', error);
-});
+        } else {
+            console.error('Failed to login');
+            // Handle errors here
+            response.json().then(data => {
+                console.error('Error details: ', data);
+            });
+        }
+    }).catch(error => {
+        console.error('Error with Fetch operation: ', error);
+    });
 }
 
 

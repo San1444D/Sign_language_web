@@ -12,19 +12,18 @@ register_error_handlers_api(auth_bp)
 @auth_bp.route("/auth_login", methods=["POST"])
 def authorize():
     """Handle user authentication and DB registration"""
-    token = request.headers.get("Authorization")
-    reCapToken = request.headers.get("reCAPTCHA")
-
-    if not token or not token.startswith("Bearer "):
-        abort(401, "Authorization token is required with Bearer prefix")
-
-    token = token[7:]  # Strip off 'Bearer ' to get the actual token
-
     try:
-        # Verify reCAPTCHA
+        token = request.headers.get("Authorization")
+        reCapToken = request.headers.get("reCAPTCHA")
+
+        if not token or not token.startswith("Bearer "):
+            abort(401, "Authorization token is required with Bearer prefix")
         if not reCapToken:
             abort(400, "reCAPTCHA token is required")
 
+        token = token[7:]  # Strip off 'Bearer ' to get the actual token
+
+        # Verify reCAPTCHA
         reCapResponse = requests.post(
             "https://www.google.com/recaptcha/api/siteverify",
             data={"secret": reCAPTCHA_SECRET["SECRET_KEY"], "response": reCapToken},

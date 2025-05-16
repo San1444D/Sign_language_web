@@ -49,7 +49,10 @@ function extractKeypoints(results) {
   return pose.concat(face, leftHand, rightHand); // Total: 1662
 }
 
-
+// Utility function to add sleep functionality
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 // Drawing functions
 function drawConnectors(ctx, landmarks, connections, color = 'white', lineWidth = 2) {
@@ -78,7 +81,7 @@ function drawLandmarks(ctx, landmarks, color = 'red', radius = 3) {
 
 function drawResults(results) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  
+
   if (!results) return;
 
   if (results.poseLandmarks) {
@@ -105,11 +108,11 @@ const PoseConnections = [
   [25, 27], [26, 28], [27, 29], [28, 30]  // legs
 ];
 const HandConnections = [
-  [0,1],[1,2],[2,3],[3,4], // Thumb
-  [0,5],[5,6],[6,7],[7,8], // Index
-  [0,9],[9,10],[10,11],[11,12], // Middle
-  [0,13],[13,14],[14,15],[15,16], // Ring
-  [0,17],[17,18],[18,19],[19,20] // Pinky
+  [0, 1], [1, 2], [2, 3], [3, 4], // Thumb
+  [0, 5], [5, 6], [6, 7], [7, 8], // Index
+  [0, 9], [9, 10], [10, 11], [11, 12], // Middle
+  [0, 13], [13, 14], [14, 15], [15, 16], // Ring
+  [0, 17], [17, 18], [18, 19], [19, 20] // Pinky
 ];
 
 // Frame processing loop
@@ -158,14 +161,14 @@ function sendFrames(frames) {
 
 // Display the prediction result
 function displayResult(response) {
-  // if (result_temp === response.result) return;
+  if (result_temp === response.result) return;
   result_temp = response.result;
 
   const card = `
     <div class="card">
       <h4 class="text-capitalize ps-2">${response.result}</h4>
     </div>`;
-  
+
   $('#results').prepend(card);
 
   if (response.audio_b64) {
@@ -174,10 +177,10 @@ function displayResult(response) {
 }
 
 // Play audio response
-function playAudio(base64) {
+async function playAudio(base64) {
   audioPlayer.src = 'data:audio/mpeg;base64,' + base64;
   audioPlayer.volume = 1;
-  audioPlayer.play();
+  await audioPlayer.play();
 }
 
 // Initialize everything
@@ -194,7 +197,7 @@ async function mediapipeInit() {
     .then(stream => {
       video.srcObject = stream;
       video.style.transform = 'scaleX(-1)'; // Mirror the video
-      
+
       video.play();
     });
 

@@ -84,11 +84,12 @@ except Exception as e:
 
 
 try:
-    from tensorflow.keras.models import load_model
+    import tensorflow as tf
     import numpy as np
     actions = np.array(config_json['Model']["actions"])
     logger.info("Actions loaded successfully")
-    ML = load_model(f"{config_json["Model"]["MODEL_PATH"]}/{config_json["Model"]["MODEL_NAME"]}")
+    ML = tf.keras.models.load_model(f"{config_json["Model"]["MODEL_PATH"]}/{config_json["Model"]["MODEL_NAME"]}")
+    ML.load_weights(f"{config_json["Model"]["MODEL_PATH"]}/{config_json["Model"]["MODEL_NAME"]}")
 
     logger.info("AI Model is Loaded successfully")
 except Exception as e:

@@ -25,13 +25,13 @@
     </div>
   </div> -->
 
+  <!-- <div class="row">
+      <div class="col-sm-12">
+          <h1>Welcome to SLRPS</h1>
+          <p>This is a simple Main page for managing SLRPS.</p>
+      </div>
+  </div> -->
   <div class="container-fluid rounded" id="main-content">
-    <!-- <div class="row">
-        <div class="col-sm-12">
-            <h1>Welcome to SLRPS</h1>
-            <p>This is a simple Main page for managing SLRPS.</p>
-        </div>
-    </div> -->
     <div class="row justify-content-center align-items-center g-2 column-gap-3">
       <div class="col-md-6 col-sm-12">
         <h3>Video Output</h3>
@@ -55,30 +55,21 @@
           Submit
         </button>
 
-        Submit
-      </button>
-      
-      <div class="mt-3">
-        <button class="btn btn-secondary mx-auto" id="start-recording" type="button">
-          Start Recording
-        </button>
-        <button class="btn btn-danger mx-auto" id="stop-recording" type="button" disabled>
-          Stop Recording
-        </button>
+        <div class="mt-3 mx-auto s-2">
+          <p>Speech
+            <input type="checkbox" class="btn-check" id="recording" autocomplete="off">
+            <label class="btn" for="recording" id="mic"><i class="bi bi-mic"></i></label>
+          </p>
+        </div>
       </div>
-
-      </div>
-
-
     </div>
-
-    <p id="recognized-text" class="mt-3">
-
-    </p>
-    <!-- <img src="/static/img/pngwing.com (1).png" alt="presentation"
-                class="img-fluid rounded w-25 position-absolute bottom-0 end-0 z-n1 bg-opacity-10"> -->
-
   </div>
+  <!-- <button class="btn btn-secondary mx-auto" id="start-recording" type="button">
+  Start Recording
+</button>
+<button class="btn btn-danger mx-auto" id="stop-recording" type="button" disabled>
+  Stop Recording
+</button> -->
 </main>
 
 {% endblock %}
@@ -127,49 +118,49 @@
   let mediaRecorder;
   let audioChunks = [];
 
-  const startRecordingButton = document.getElementById("start-recording");
-  const stopRecordingButton = document.getElementById("stop-recording");
+  const RecordingButton = document.getElementById("recording");
+  // const startRecordingButton = document.getElementById("start-recording");
+  // const stopRecordingButton = document.getElementById("stop-recording");
 
   // Start recording
-  startRecordingButton.addEventListener("click", async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      mediaRecorder = new MediaRecorder(stream);
+  RecordingButton.addEventListener("change", async () => {
+    if (RecordingButton.checked) {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
 
-      mediaRecorder.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          audioChunks.push(event.data);
-        }
-      };
-
-      mediaRecorder.onstop = async () => {
-        const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
-        audioChunks = []; // Clear the chunks for the next recording
-
-        // Convert the audio blob to base64
-        const reader = new FileReader();
-        reader.readAsDataURL(audioBlob);
-        reader.onloadend = () => {
-          const base64Audio = reader.result.split(",")[1]; // Get the base64 string
-          sendAudioToServer(base64Audio);
+        mediaRecorder.ondataavailable = (event) => {
+          if (event.data.size > 0) {
+            audioChunks.push(event.data);
+          }
         };
-      };
 
-      mediaRecorder.start();
-      startRecordingButton.disabled = true;
-      stopRecordingButton.disabled = false;
-    } catch (error) {
-      console.error("Error accessing microphone:", error);
-      alert("Could not access your microphone. Please check your permissions.");
-    }
-  });
+        mediaRecorder.onstop = async () => {
+          const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
+          audioChunks = []; // Clear the chunks for the next recording
 
-  // Stop recording
-  stopRecordingButton.addEventListener("click", () => {
-    if (mediaRecorder && mediaRecorder.state !== "inactive") {
-      mediaRecorder.stop();
-      startRecordingButton.disabled = false;
-      stopRecordingButton.disabled = true;
+          // Convert the audio blob to base64
+          const reader = new FileReader();
+          reader.readAsDataURL(audioBlob);
+          reader.onloadend = () => {
+            const base64Audio = reader.result.split(",")[1]; // Get the base64 string
+            sendAudioToServer(base64Audio);
+          };
+        };
+
+        mediaRecorder.start();
+        console.log("Recording started...");
+        $("#mic").html(`<i class="bi bi-mic-fill"></i>`);
+      } catch (error) {
+        console.error("Error accessing microphone:", error);
+        alert("Could not access your microphone. Please check your permissions.");
+      }
+    } else {
+      if (mediaRecorder && mediaRecorder.state !== "inactive") {
+        mediaRecorder.stop();
+        console.log("Recording stopped.");
+        $("#mic").html(`<i class="bi bi-mic"></i>`);
+      }
     }
   });
 
@@ -182,28 +173,28 @@
       contentType: "application/json",
       data: JSON.stringify({ audio: base64Audio }),
       xhrFields: {
-          responseType: 'blob' // Expect a binary response (video stream)
-        },
-        success: function (data) {
-          console.log("Video data received:", data); // Log the received video data
-          // console.log("text: ", data.header.text)
+        responseType: 'blob' // Expect a binary response (video stream)
+      },
+      success: function (data) {
+        console.log("Video data received:", data); // Log the received video data
+        // console.log("text: ", data.header.text)
 
-          // Create a URL for the video blob
-          const videoUrl = URL.createObjectURL(data);
+        // Create a URL for the video blob
+        const videoUrl = URL.createObjectURL(data);
 
-          // Set the video source and play it
-          videoPlayer.attr('src', videoUrl);
-          videoPlayer[0].load();
-          videoPlayer[0].play();
+        // Set the video source and play it
+        videoPlayer.attr('src', videoUrl);
+        videoPlayer[0].load();
+        videoPlayer[0].play();
 
-          // Clean up the blob URL after the video ends
-          videoPlayer.on('ended', function () {
-            URL.revokeObjectURL(videoUrl);
-          });
-        },
-        error: function (xhr) {
-          alert('Error: ' + (xhr.responseJSON?.error || 'Unable to play video.'));
-        }
+        // Clean up the blob URL after the video ends
+        videoPlayer.on('ended', function () {
+          URL.revokeObjectURL(videoUrl);
+        });
+      },
+      error: function (xhr) {
+        alert('Error: ' + (xhr.responseJSON?.error || 'Unable to play video.'));
+      }
     });
   }
 </script>

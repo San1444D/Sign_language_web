@@ -20,7 +20,11 @@ app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=1)  # Adjust session e
 app.config['SESSION_REFRESH_EACH_REQUEST'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'  # Can be 'Strict', 'Lax', or 'None'
 
-
+# @app.after_request
+# def set_headers(response):
+#     response.headers["Cross-Origin-Opener-Policy"] = "same-origin"  # "same-origin-allow-popups"
+#     response.headers["Cross-Origin-Embedder-Policy"] = "require-corp"
+#     return response
 
 from API import api as api_blueprint
 from WEB import web as web_blueprint

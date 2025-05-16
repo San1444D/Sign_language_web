@@ -1,24 +1,0 @@
-2025-04-27 19:42:10,538 - ERROR - Unhandled Exception: Could not build url for endpoint 'api.get_api.get_language_list'. Did you mean 'api.get_api.get_translate_langs' instead? 
- Request URL: http://localhost:5000/to-text/ 
- Request Method: GET 
- Request Headers: Host: localhost:5000 Connection: keep-alive Cache-Control: max-age=0 Sec-Ch-Ua: "Brave";v="135", "Not-A.Brand";v="8", "Chromium";v="135" Sec-Ch-Ua-Mobile: ?0 Sec-Ch-Ua-Platform: "Windows" Upgrade-Insecure-Requests: 1 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36 Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8 Sec-Gpc: 1 Accept-Language: en-US,en;q=0.7 Sec-Fetch-Site: same-origin Sec-Fetch-Mode: navigate Sec-Fetch-User: ?1 Sec-Fetch-Dest: document Referer: http://localhost:5000/dashboard Accept-Encoding: gzip, deflate, br, zstd Cookie: ext_name=ojplmecpdpgccookcobabopnaifgidhf; session=.eJyNkVtPwjAUx7-K6fO47AK7JCbiFInRByUGjCFL1x26Au1GL0QhfHc7AkEfvDye5nf-l9MdymqQHAsQGiVaGnCQUSBRskPYFChBilHRWmFBDabQqmW1AKJbeQB5hBzL6DLTjANK3DDohX3XD1wHAcdsZZepEVhhoctK9a5o89gmFUdHINuAZHMGxckZ3uuTThA3OnMmIccKmjissBmZZqCa6ejw9pPFzEG0qugKDpPl3G7oBYHbj7ww7kWR68axH6DZ3jk0zJjIbLeNNZFN7vOqBRjW3-sxZTOgUutaJZ2OAmIk6GoJon1e7Px-OIGbm6ExFhfUjjUj2op8UV2V_lGt-Q9SCW3rH4RxZ5DSqCL3A957Aj5a-xQvbvlajKI0zacPH94G5ltv2319rqdyGOBx_2WZDuXTpYr7LWLdlMmtUwHbiZlIVvuPISE3aSi4Lu-uB1u-8CxkWPEPyGbL_gb3-0_Gp8zD.aA45cA.bgYhZHCr5cMtFvKdAO0OdxKNoTE  
-2025-04-27 19:43:16,303 - INFO - config.json loaded
-2025-04-27 19:43:18,950 - INFO - Firebase Admin SDK initialized successfully.
-2025-04-27 19:43:34,670 - INFO - config.json loaded
-2025-04-27 19:43:36,855 - INFO - Firebase Admin SDK initialized successfully.
-2025-04-27 19:43:49,579 - INFO - Actions loaded successfully
-2025-04-27 19:43:50,113 - INFO - AI Model is Loaded successfully
-2025-04-27 19:44:06,083 - INFO - Whisper Model is Loaded successfully
-2025-04-27 19:44:06,756 - INFO - Excel file loaded successfully
-2025-04-27 19:46:43,844 - INFO - config.json loaded
-2025-04-27 19:46:46,168 - INFO - Firebase Admin SDK initialized successfully.
-2025-04-27 19:46:59,126 - INFO - Actions loaded successfully
-2025-04-27 19:46:59,651 - INFO - AI Model is Loaded successfully
-2025-04-27 19:47:15,463 - INFO - Whisper Model is Loaded successfully
-2025-04-27 19:47:16,156 - INFO - Excel file loaded successfully
-2025-04-27 19:48:37,426 - INFO - config.json loaded
-2025-04-27 19:48:40,213 - INFO - Firebase Admin SDK initialized successfully.
-2025-04-27 19:48:52,620 - INFO - Actions loaded successfully
-2025-04-27 19:48:53,142 - INFO - AI Model is Loaded successfully
-2025-04-27 19:49:09,528 - INFO - Whisper Model is Loaded successfully
-2025-04-27 19:49:10,226 - INFO - Excel file loaded successfully
